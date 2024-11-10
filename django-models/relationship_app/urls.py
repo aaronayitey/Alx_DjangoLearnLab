@@ -1,5 +1,6 @@
 # relationship_app/urls.py
 from django.urls import path
+from . import views
 from .views import list_books, LibraryDetailView, CustomLoginView, CustomLogoutView, register  # Import the views explicitly
 from django.contrib.auth.views import LoginView, LogoutView
 from django.shortcuts import render, redirect
@@ -23,6 +24,9 @@ urlpatterns = [
     
     # Registration URL
     path('register/', register, name='register'),
+    path('admin/', views.admin_view, name='admin_view'),
+    path('librarian/', views.librarian_view, name='librarian_view'),
+    path('member/', views.member_view, name='member_view'),
 ]
 
 
