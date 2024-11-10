@@ -10,3 +10,13 @@ books_in_library = library.books.all()
 
 # Retrieve the librarian for a library
 librarian = Librarian.objects.get(library=library)
+
+# Replace with the name of the library you want to query
+library_name = 'Central Library'
+
+# Query to get the Library by name
+library = Library.objects.get(name=library_name)
+
+# Print the result
+print(f"Library found: {library.name}")
+
