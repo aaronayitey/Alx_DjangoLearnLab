@@ -15,6 +15,14 @@ urlpatterns = [
     path('login/', CustomLoginView.as_view(), name='login'),
     path('logout/', CustomLogoutView.as_view(), name='logout'),
     path('register/', register, name='register'),
+      # Login URL
+    path('login/', LoginView.as_view(template_name='login.html'), name='login'),
+    
+    # Logout URL
+    path('logout/', LogoutView.as_view(template_name='logout.html'), name='logout'),
+    
+    # Registration URL
+    path('register/', register, name='register'),
 ]
 
 
