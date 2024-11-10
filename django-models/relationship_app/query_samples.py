@@ -20,3 +20,12 @@ library = Library.objects.get(name=library_name)
 # Print the result
 print(f"Library found: {library.name}")
 
+
+# Replace with the name of the author you want to query
+author_name = 'John Doe'
+
+# Query to get the Author by name
+author = Author.objects.get(name=author_name)
+
+# Print the result
+print(f"Author found: {author.name}")
