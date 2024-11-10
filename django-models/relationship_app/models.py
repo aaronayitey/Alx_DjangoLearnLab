@@ -45,3 +45,21 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return f'{self.user.username} - {self.role}'
+    
+   
+
+class Book(models.Model):
+    title = models.CharField(max_length=200)
+    author = models.CharField(max_length=100)
+    published_date = models.DateField()
+    isbn_number = models.CharField(max_length=13)
+
+    class Meta:
+        permissions = [
+            ("can_add_book", "Can add book"),
+            ("can_change_book", "Can change book"),
+            ("can_delete_book", "Can delete book"),
+        ]
+
+    def __str__(self):
+        return self.title
