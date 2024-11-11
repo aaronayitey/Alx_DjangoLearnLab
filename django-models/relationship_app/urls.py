@@ -55,8 +55,8 @@ urlpatterns = [
     path('login/', views.CustomLoginView.as_view(), name='login'),
     path('logout/', views.CustomLogoutView.as_view(), name='logout'),
     path('register/', views.register, name='register'),
-    path('book/add/', views.add_book, name='add_book'),
-    path('book/edit/<int:book_id>/', views.edit_book, name='edit_book'),
+    path('add_book/', views.add_book, name='add_book'),
+    path('edit_book/<int:book_id>/', views.edit_book, name='edit_book'),
     path('book/delete/<int:book_id>/', views.delete_book, name='delete_book'),
 
 ]
