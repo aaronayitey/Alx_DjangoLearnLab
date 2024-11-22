@@ -1,1 +1,9 @@
-django_env
+# Text backup files
+*.bak
+
+# Database
+*.sqlite3
+
+#to be ignored
+
+**/__pycache__
