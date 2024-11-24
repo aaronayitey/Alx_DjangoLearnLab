@@ -3,11 +3,11 @@ from django.shortcuts import render
 # Create your views here.
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status, generics
 from .models import Book
 from .serializers import BookSerializer
 
-class BookListCreateView(APIView):
+class BookListCreateView(generics.ListCreateAPIView):
     def get(self, request):
         books = Book.objects.all()
         serializer = BookSerializer(books, many=True)
