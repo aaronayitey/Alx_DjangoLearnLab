@@ -7,3 +7,4 @@
 #to be ignored
 
 **/__pycache__
+.Pipefile
