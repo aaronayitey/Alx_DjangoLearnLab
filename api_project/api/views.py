@@ -3,9 +3,16 @@ from django.shortcuts import render
 # Create your views here.
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status, generics
+from rest_framework import status, generics, viewsets
 from .models import Book
 from .serializers import BookSerializer
+
+
+# Define a ViewSet to handle CRUD operations for the Book model
+class BookViewSet(viewsets.ModelViewSet):
+    queryset = Book.objects.all()  # Retrieve all books from the database
+    serializer_class = BookSerializer  # Use the BookSerializer to format data
+
 
 class BookList(generics.ListAPIView):
     def get(self, request):
