@@ -7,7 +7,7 @@ from rest_framework import status, generics
 from .models import Book
 from .serializers import BookSerializer
 
-class BookListCreateView(generics.ListAPIView):
+class BookList(generics.ListAPIView):
     def get(self, request):
         books = Book.objects.all()
         serializer = BookSerializer(books, many=True)
