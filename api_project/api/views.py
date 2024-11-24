@@ -6,12 +6,18 @@ from rest_framework.response import Response
 from rest_framework import status, generics, viewsets
 from .models import Book
 from .serializers import BookSerializer
-
+from rest_framework.permissions import IsAuthenticated
 
 # Define a ViewSet to handle CRUD operations for the Book model
 class BookViewSet(viewsets.ModelViewSet):
     queryset = Book.objects.all()  # Retrieve all books from the database
     serializer_class = BookSerializer  # Use the BookSerializer to format data
+
+class BookViewSet(viewsets.ModelViewSet):
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+    permission_classes = [IsAuthenticated]  # Ensure that the user is authenticated
+
 
 
 class BookList(generics.ListAPIView):
