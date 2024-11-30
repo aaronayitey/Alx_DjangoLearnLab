@@ -1,71 +1,63 @@
-from django.shortcuts import render
-from rest_framework import generics
-from .models import Book
-from .serializers import BookSerializer
-from rest_framework.permissions import IsAuthenticated
-
-# Create your views here.
-
-
-# List all books
 # api/views.py
 from rest_framework import generics
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 from .models import Book
 from .serializers import BookSerializer
-from rest_framework.permissions import IsAuthenticated
 
-# ListView for retrieving all books
+# List View for retrieving all books
 class ListView(generics.ListAPIView):
     """
-    Retrieve a list of all books from the database.
-    This view uses the BookSerializer to serialize the data.
-    GET /books/
+    View to list all books.
+    - Allows unauthenticated users to view the list of books (read-only access).
+    - Authenticated users can access the list as well.
     """
-    queryset = Book.objects.all()  # Retrieve all books
-    serializer_class = BookSerializer  # Use the BookSerializer for serialization
+    queryset = Book.objects.all()  # Fetch all Book objects
+    serializer_class = BookSerializer  # Use BookSerializer to serialize data
+    permission_classes = [IsAuthenticatedOrReadOnly]  # Allow read-only access to unauthenticated users
 
-# DetailView for retrieving a single book by ID
+# Detail View for retrieving a single book by ID
 class DetailView(generics.RetrieveAPIView):
     """
-    Retrieve a single book by its ID.
-    This view uses the BookSerializer to serialize the data.
-    GET /books/<int:pk>/
+    View to retrieve a specific book by its ID.
+    - Allows unauthenticated users to view details of a single book (read-only access).
+    - Authenticated users can access the details as well.
     """
-    queryset = Book.objects.all()  # Retrieve books by their primary key (ID)
-    serializer_class = BookSerializer  # Use the BookSerializer for serialization
+    queryset = Book.objects.all()  # Fetch all Book objects
+    serializer_class = BookSerializer  # Use BookSerializer to serialize data
+    permission_classes = [IsAuthenticatedOrReadOnly]  # Allow read-only access to unauthenticated users
 
-# CreateView for adding a new book
+# Create View for adding a new book
 class CreateView(generics.CreateAPIView):
     """
-    Create a new book in the database.
-    Only authenticated users can create new books.
-    POST /books/
+    View to create a new book.
+    - Only authenticated users can add new books.
+    - Authenticated users need to provide valid data to create a book instance.
     """
-    queryset = Book.objects.all()  # Target Book model for creation
-    serializer_class = BookSerializer  # Use the BookSerializer to validate and serialize input data
-    permission_classes = [IsAuthenticated]  # Only authenticated users can create a book
+    queryset = Book.objects.all()  # Fetch all Book objects
+    serializer_class = BookSerializer  # Use BookSerializer to serialize data
+    permission_classes = [IsAuthenticated]  # Only authenticated users can create books
 
-# UpdateView for modifying an existing book
+# Update View for modifying an existing book
 class UpdateView(generics.UpdateAPIView):
     """
-    Update an existing book's details.
-    Only authenticated users can update books.
-    PUT /books/<int:pk>/
+    View to update an existing book.
+    - Only authenticated users can modify the book data.
+    - Users must be authenticated to update book details.
     """
-    queryset = Book.objects.all()  # Retrieve books for update by their primary key (ID)
-    serializer_class = BookSerializer  # Use the BookSerializer to validate and serialize updated data
-    permission_classes = [IsAuthenticated]  # Only authenticated users can update a book
+    queryset = Book.objects.all()  # Fetch all Book objects
+    serializer_class = BookSerializer  # Use BookSerializer to serialize data
+    permission_classes = [IsAuthenticated]  # Only authenticated users can update books
 
-# DeleteView for removing a book
+# Delete View for removing a book
 class DeleteView(generics.DestroyAPIView):
     """
-    Delete an existing book from the database.
-    Only authenticated users can delete books.
-    DELETE /books/<int:pk>/
+    View to delete a specific book.
+    - Only authenticated users can delete a book.
+    - Users must be authenticated to delete a book instance.
     """
-    queryset = Book.objects.all()  # Retrieve books for deletion by their primary key (ID)
-    serializer_class = BookSerializer  # Use the BookSerializer to handle any necessary serialization
-    permission_classes = [IsAuthenticated]  # Only authenticated users can delete a book
+    queryset = Book.objects.all()  # Fetch all Book objects
+    serializer_class = BookSerializer  # Use BookSerializer to serialize data
+    permission_classes = [IsAuthenticated]  # Only authenticated users can delete books
 
 # api/views.py
 
@@ -77,3 +69,4 @@ class BookCreateView(generics.CreateAPIView):
     def perform_create(self, serializer):
         # Assign the current user as the author
         serializer.save(author=self.request.user)
+
