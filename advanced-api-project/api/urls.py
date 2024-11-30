@@ -1,10 +1,12 @@
+# api/urls.py
 from django.urls import path
-from .views import BookListView, BookDetailView, BookCreateView, BookUpdateView, BookDeleteView
+from .views import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 urlpatterns = [
-    path('books/', BookListView.as_view(), name='book-list'),  # List view
-    path('books/<int:pk>/', BookDetailView.as_view(), name='book-detail'),  # Detail view
-    path('books/create/', BookCreateView.as_view(), name='book-create'),  # Create view
-    path('books/<int:pk>/update/', BookUpdateView.as_view(), name='book-update'),  # Update view
-    path('books/<int:pk>/delete/', BookDeleteView.as_view(), name='book-delete'),  # Delete view
+    path('books/', ListView.as_view(), name='book-list'),  # URL for listing all books
+    path('books/<int:pk>/', DetailView.as_view(), name='book-detail'),  # URL for retrieving a single book
+    path('books/create/', CreateView.as_view(), name='book-create'),  # URL for creating a new book
+    path('books/update/<int:pk>/', UpdateView.as_view(), name='book-update'),  # URL for updating a book
+    path('books/delete/<int:pk>/', DeleteView.as_view(), name='book-delete'),  # URL for deleting a book
 ]
+
