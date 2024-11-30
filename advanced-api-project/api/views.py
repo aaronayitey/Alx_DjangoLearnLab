@@ -70,3 +70,80 @@ class BookCreateView(generics.CreateAPIView):
         # Assign the current user as the author
         serializer.save(author=self.request.user)
 
+# api/views.py
+from django_filters import rest_framework as filters
+from rest_framework import generics
+from .models import Book
+from .serializers import BookSerializer
+
+# Book Filter class to filter by title, author, and publication year
+class BookFilter(filters.FilterSet):
+    title = filters.CharFilter(lookup_expr='icontains')  # Case-insensitive search
+    author = filters.CharFilter(lookup_expr='icontains')  # Case-insensitive search
+    publication_year = filters.NumberFilter()
+
+    class Meta:
+        model = Book
+        fields = ['title', 'author', 'publication_year']
+
+# BookListView now uses filtering
+class BookListView(generics.ListAPIView):
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+    filter_backends = (filters.DjangoFilterBackend,)
+    filterset_class = BookFilter
+
+
+# api/views.py
+from rest_framework import filters
+
+class BookListView(generics.ListAPIView):
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+    filter_backends = (filters.DjangoFilterBackend, filters.SearchFilter)
+    filterset_class = BookFilter
+    search_fields = ['title', 'author']  # Enable search on title and author
+
+
+# api/views.py
+from rest_framework import filters
+
+class BookListView(generics.ListAPIView):
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+    filter_backends = (filters.DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter)
+    filterset_class = BookFilter
+    search_fields = ['title', 'author']
+    ordering_fields = ['title', 'publication_year']  # Allow ordering by title and publication year
+    ordering = ['title']  # Default ordering by title
+
+
+# api/views.py
+from django_filters import rest_framework as filters
+from rest_framework import generics, filters as drf_filters
+from .models import Book
+from .serializers import BookSerializer
+
+class BookFilter(filters.FilterSet):
+    title = filters.CharFilter(lookup_expr='icontains')
+    author = filters.CharFilter(lookup_expr='icontains')
+    publication_year = filters.NumberFilter()
+
+    class Meta:
+        model = Book
+        fields = ['title', 'author', 'publication_year']
+
+class BookListView(generics.ListAPIView):
+    """
+    List all books with filtering, searching, and ordering.
+    - Filter by title, author, and publication year.
+    - Search by title and author.
+    - Order by title or publication year.
+    """
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+    filter_backends = (filters.DjangoFilterBackend, drf_filters.SearchFilter, drf_filters.OrderingFilter)
+    filterset_class = BookFilter
+    search_fields = ['title', 'author']
+    ordering_fields = ['title', 'publication_year']
+    ordering = ['title']  # Default ordering by title
